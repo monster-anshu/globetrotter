@@ -6,6 +6,7 @@ const QuestionSchema = new Schema(
     alias: {
       required: true,
       type: String,
+      unique: true,
     },
     clues: [String],
     funFacts: [String],
