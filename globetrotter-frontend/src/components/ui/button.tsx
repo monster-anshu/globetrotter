@@ -37,7 +37,9 @@ const Button: FC<IButtonProps> = ({
       onClick={onClick}
       style={{
         background:
-          variant === 'primary' ? 'var(--primary-gradient)' : undefined,
+          variant === 'primary'
+            ? 'linear-gradient(#97e851, #479440)'
+            : undefined,
       }}
     >
       {loading ? (

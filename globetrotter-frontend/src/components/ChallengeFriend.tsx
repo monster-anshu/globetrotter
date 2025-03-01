@@ -1,4 +1,4 @@
-import { createChallengeURL } from '@/utils/challange';
+import { createChallengeURL } from '@/utils/challenge';
 import { useMutation } from '@tanstack/react-query';
 import html2canvas from 'html2canvas';
 import React, { useRef } from 'react';
