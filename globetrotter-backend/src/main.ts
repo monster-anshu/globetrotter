@@ -7,7 +7,7 @@ import { patchNestJsSwagger, ZodValidationPipe } from 'nestjs-zod';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('/api');
+  app.setGlobalPrefix('/api/v1/globetrotter');
   app.useGlobalPipes(new ZodValidationPipe());
   app.use(cookieParser());
   app.use(SessionMiddlewareFn);
