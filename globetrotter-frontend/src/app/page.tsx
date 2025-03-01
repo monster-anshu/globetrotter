@@ -1,6 +1,14 @@
+'use client';
+import Button from '@/components/ui/button';
+import { UserService } from '@/services/user.service';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
 export default function Home() {
+  const playMutation = useMutation({
+    mutationFn: UserService.create,
+  });
+
   return (
     <main>
       <div className="h-dvh">
@@ -16,14 +24,12 @@ export default function Home() {
           <h2 className="heading text-2xl text-white">
             Unlock the World's Hidden Wonders
           </h2>
-          <button
-            className="rounded-lg px-4 py-2 text-xl font-medium text-white italic shadow"
-            style={{
-              background: 'var(--primary-gradient)',
-            }}
+          <Button
+            onClick={() => playMutation.mutate({})}
+            loading={playMutation.isPending}
           >
             Play now
-          </button>
+          </Button>
         </div>
       </div>
     </main>

@@ -43,7 +43,16 @@ export class UserService {
       })
       .lean();
 
-    return user;
+    if (!user) {
+      return null;
+    }
+
+    return {
+      userId: user._id,
+      status: user.status,
+      score: user.score,
+      username: user.username,
+    };
   }
 
   async incScore(userId: string) {
