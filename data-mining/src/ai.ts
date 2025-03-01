@@ -99,7 +99,6 @@ const main = async () => {
   const cities = await getCities();
 
   console.log("Fetched cities : ", cities);
-  return;
   const counter = await QuestionModel.countDocuments();
 
   const tasks = cities.map((city, index) =>
