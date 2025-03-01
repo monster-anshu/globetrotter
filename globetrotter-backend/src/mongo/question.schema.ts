@@ -10,6 +10,7 @@ const QuestionSchema = new Schema(
     },
     clues: [String],
     funFacts: [String],
+    trivia: [String],
     name: {
       required: true,
       type: String,

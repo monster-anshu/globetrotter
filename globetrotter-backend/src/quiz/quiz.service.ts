@@ -85,6 +85,7 @@ export class QuizService {
     return {
       isCorrect: isCorrect,
       funFact: getRandomValueFromArray(question.funFacts),
+      trivia: getRandomValueFromArray(question.trivia),
       answer: question.name,
     };
   }
