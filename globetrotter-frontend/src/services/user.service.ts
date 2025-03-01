@@ -26,4 +26,5 @@ export type User = null | {
   status: string;
   score: number;
   username: string;
+  incorrect: number;
 };

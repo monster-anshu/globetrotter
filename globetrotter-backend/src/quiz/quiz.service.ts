@@ -78,9 +78,7 @@ export class QuizService {
 
     const isCorrect = answer === question.name;
 
-    if (isCorrect) {
-      await this.userService.incScore(userId);
-    }
+    await this.userService.incScore(userId, isCorrect ? 'score' : 'incorrect');
 
     return {
       isCorrect: isCorrect,

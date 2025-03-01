@@ -20,7 +20,7 @@ const createConnection = (url: string, name: string) => {
 
   return conn;
 };
-console.log(process.env.MONGO_URI);
+
 export const MONGO_CONNETIONS = {
   DEFAULT: createConnection(MONGO_URI, 'default'),
 };

@@ -48,6 +48,7 @@ export class UserService {
       status: user.status,
       score: user.score,
       username: user.username,
+      incorrect: user.incorrect || 0,
     };
     return { user: userToSend, token };
   }
@@ -69,17 +70,18 @@ export class UserService {
       status: user.status,
       score: user.score,
       username: user.username,
+      incorrect: user.incorrect || 0,
     };
   }
 
-  async incScore(userId: string) {
+  async incScore(userId: string, key: 'score' | 'incorrect') {
     await this.userModel.findOneAndUpdate(
       {
         _id: userId,
         status: 'ACTIVE',
       },
       {
-        $inc: { score: 1 },
+        $inc: { [key]: 1 },
       }
     );
   }

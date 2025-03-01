@@ -1,7 +1,9 @@
 'use client';
 import Button from '@/components/ui/button';
+import { queryClient } from '@/provider/react-query';
+import { userInfoQuery } from '@/queries/user.query';
 import { QuizQuestion, QuizService } from '@/services/quiz.service';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { UserRoundPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -20,11 +22,21 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
   const [inviting, setInviting] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [clickedOption, setClickedOption] = useState('');
+  const { data: userInfo } = useQuery(userInfoQuery);
 
   const checkMutation = useMutation({
     mutationFn: QuizService.check,
-    onSuccess() {
+    onSuccess(data) {
       setClickedOption('');
+      queryClient.setQueryData(userInfoQuery.queryKey, (curr) => {
+        if (!curr) return;
+
+        return {
+          ...curr,
+          incorrect: data.isCorrect ? curr.incorrect : curr.incorrect + 1,
+          score: data.isCorrect ? curr.score + 1 : curr.score,
+        };
+      });
     },
   });
 
@@ -48,6 +60,13 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
       <h1 className="heading text-2xl italic">
         <Link href={'/'}>Globetrotter</Link>
       </h1>
+
+      {userInfo && (
+        <div className="ml-auto">
+          <p>Correct : {userInfo.score}</p>
+          <p>Incorrect : {userInfo.incorrect}</p>
+        </div>
+      )}
 
       {checkMutation.data?.isCorrect === true && (
         <SuccessDialog
