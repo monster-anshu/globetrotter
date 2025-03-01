@@ -29,7 +29,9 @@ type CheckQuizRequest = {
 
 type CheckQuizResponse = {
   isSuccess: boolean;
-  match: boolean;
+  isCorrect: boolean;
+  funFact: string;
+  answer: string;
 };
 
 type Option = {

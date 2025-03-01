@@ -23,10 +23,11 @@ export class QuizController {
     @GetSession('userId') userId: string,
     @Body() body: QuizCheckDto
   ) {
-    const match = await this.quizService.check(userId, body);
+    const result = await this.quizService.check(userId, body);
+
     return {
       isSuccess: true,
-      match,
+      ...result,
     };
   }
 }

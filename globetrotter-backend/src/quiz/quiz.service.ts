@@ -76,12 +76,16 @@ export class QuizService {
       throw new NotFoundException('Question not found');
     }
 
-    if (answer !== question.name) {
-      return false;
+    const isCorrect = answer === question.name;
+
+    if (isCorrect) {
+      await this.userService.incScore(userId);
     }
 
-    await this.userService.incScore(userId);
-
-    return true;
+    return {
+      isCorrect: isCorrect,
+      funFact: getRandomValueFromArray(question.funFacts),
+      answer: question.name,
+    };
   }
 }
