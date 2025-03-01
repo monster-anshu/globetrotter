@@ -1,4 +1,5 @@
 import { Question, QuestionModelProvider } from '@/mongo/question.schema';
+import { UserService } from '@/user/user.service';
 import { getRandomValueFromArray, shuffleArray } from '@/utils/array';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Types } from 'mongoose';
@@ -7,6 +8,7 @@ import { QuizCheckDto } from './dto/quiz-check.dto';
 @Injectable()
 export class QuizService {
   constructor(
+    private readonly userService: UserService,
     @Inject(QuestionModelProvider.provide)
     private readonly questionModel: typeof QuestionModelProvider.useValue
   ) {}
@@ -63,7 +65,7 @@ export class QuizService {
     };
   }
 
-  async check({ alias, answer }: QuizCheckDto) {
+  async check(userId: string, { alias, answer }: QuizCheckDto) {
     const question = await this.questionModel
       .findOne({
         alias: alias,
@@ -77,6 +79,8 @@ export class QuizService {
     if (answer !== question.name) {
       return false;
     }
+
+    await this.userService.incScore(userId);
 
     return true;
   }

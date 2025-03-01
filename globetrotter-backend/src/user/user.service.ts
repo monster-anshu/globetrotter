@@ -45,4 +45,16 @@ export class UserService {
 
     return user;
   }
+
+  async incScore(userId: string) {
+    await this.userModel.findOneAndUpdate(
+      {
+        _id: userId,
+        status: 'ACTIVE',
+      },
+      {
+        $inc: { score: 1 },
+      }
+    );
+  }
 }

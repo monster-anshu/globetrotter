@@ -1,3 +1,4 @@
+import { GetSession } from '@/session/session.decorator';
 import { UserGuard } from '@/user/user.guard';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { QuizCheckDto } from './dto/quiz-check.dto';
@@ -18,8 +19,11 @@ export class QuizController {
   }
 
   @Post('check')
-  async check(@Body() body: QuizCheckDto) {
-    const match = await this.quizService.check(body);
+  async check(
+    @GetSession('userId') userId: string,
+    @Body() body: QuizCheckDto
+  ) {
+    const match = await this.quizService.check(userId, body);
     return {
       isSuccess: true,
       match,
