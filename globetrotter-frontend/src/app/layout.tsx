@@ -1,6 +1,7 @@
 import ReactQueryProvider from '@/provider/react-query';
 import type { Metadata } from 'next';
 import { Sour_Gummy } from 'next/font/google';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 const sansFont = Sour_Gummy({
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sansFont.variable} antialiased`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Toaster />
       </body>
     </html>
   );

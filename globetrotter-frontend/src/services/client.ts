@@ -1,7 +1,8 @@
+import { API_URL } from '@/env';
 import axios from 'axios';
 
 export const client = axios.create({
-  baseURL: '/api',
+  baseURL: (typeof window === 'undefined' ? API_URL : '') + '/api',
 });
 
 export type ApiResponse<Data = unknown> = {

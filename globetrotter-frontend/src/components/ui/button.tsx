@@ -24,7 +24,7 @@ const Button: FC<IButtonProps> = ({
       {...props}
       disabled={loading || disabled}
       className={twMerge(
-        'relative rounded-md border border-transparent px-4 py-1.5 font-medium',
+        'relative rounded-md border border-transparent px-4 py-1.5 font-medium not-disabled:cursor-pointer',
         variant === 'primary' &&
           'border-primary bg-primary text-primary-foreground',
         variant === 'secondary' &&

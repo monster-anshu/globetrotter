@@ -4,7 +4,6 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { QuizCheckDto } from './dto/quiz-check.dto';
 import { QuizService } from './quiz.service';
 
-@UseGuards(UserGuard)
 @Controller('quiz')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
@@ -18,6 +17,7 @@ export class QuizController {
     };
   }
 
+  @UseGuards(UserGuard)
   @Post('check')
   async check(
     @GetSession('userId') userId: string,
