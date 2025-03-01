@@ -51,6 +51,7 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
 
       {checkMutation.data?.isCorrect === true && (
         <SuccessDialog
+          inviting={inviting}
           handleNext={handleNext}
           funFact={checkMutation.data.funFact}
           answer={checkMutation.data.answer}
@@ -67,15 +68,18 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
           setInviting={setInviting}
         />
       )}
+
       <div className="mx-auto max-w-5xl">
-        <p className="mt-10 text-center text-4xl">Q. {quizQuestion.clue}</p>
-        <div className="mx-auto mt-10 grid w-fit grid-cols-2 gap-5">
+        <p className="mt-10 text-center text-2xl sm:text-4xl">
+          Q. {quizQuestion.clue}
+        </p>
+        <div className="mx-auto mt-10 grid grid-cols-1 gap-5 sm:w-fit sm:grid-cols-2">
           {quizQuestion.options.map((option) => {
             return (
               <Button
                 key={option.id}
                 size="lg"
-                className="py-4 text-2xl"
+                className="py-3 text-lg md:py-4 md:text-2xl"
                 onClick={() => handleClick(option.name)}
                 loading={
                   clickedOption === option.name && checkMutation.isPending
@@ -87,7 +91,7 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
           })}
         </div>
         {!checkMutation.data && (
-          <div className="mt-6 flex items-center">
+          <div className="mt-6 flex flex-wrap-reverse items-center gap-2">
             <Button
               onClick={() => setInviting(true)}
               aria-label="Challenge friend"
@@ -98,7 +102,7 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
             </Button>
             <div className="flex-1"></div>
             <Button
-              className="ml-auto text-3xl"
+              className="text-lg sm:text-3xl"
               variant="secondary"
               onClick={handleNext}
               loading={isPending}

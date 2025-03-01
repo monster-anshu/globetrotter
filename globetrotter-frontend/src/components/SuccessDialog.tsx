@@ -11,6 +11,7 @@ type ISuccessDialogProps = {
   handleNext: () => void;
   answer: string;
   setInviting: (value: boolean) => void;
+  inviting: boolean;
   isPending: boolean;
 };
 
@@ -20,6 +21,7 @@ const SuccessDialog: FC<ISuccessDialogProps> = ({
   answer,
   setInviting,
   isPending,
+  inviting,
 }) => {
   return (
     <Dialog open modal={false}>
@@ -29,7 +31,7 @@ const SuccessDialog: FC<ISuccessDialogProps> = ({
         </DialogTitle>
         <div>
           <p className="text-2xl">Congratulations 🎉</p>
-          <p className="text-primary bg-primary/10 my-2 mb-2 px-4 py-2 text-center text-2xl">
+          <p className="text-primary bg-primary/10 my-4 mb-2 px-4 py-2 text-center text-lg sm:text-2xl">
             {answer}
           </p>
           <p className="text-lg">Fun fact</p>
@@ -39,25 +41,26 @@ const SuccessDialog: FC<ISuccessDialogProps> = ({
           <Button
             onClick={() => setInviting(true)}
             aria-label="Challenge friend"
-            className="flex gap-2"
+            className="flex justify-center gap-2"
           >
             <UserRoundPlus />
             <span>Challenge friend</span>
           </Button>
-          <Button
-            className="ml-auto"
-            variant="secondary"
-            onClick={handleNext}
-            loading={isPending}
-          >
-            <div className="flex items-center gap-2">
+          <Button variant="secondary" onClick={handleNext} loading={isPending}>
+            <div className="flex items-center justify-center gap-2">
               <span>Next</span>
               <TbPlayerTrackNext />
             </div>
           </Button>
         </DialogFooter>
       </DialogContent>
-      <ReactConfetti className="z-[100]" />
+      {!inviting && (
+        <ReactConfetti
+          style={{
+            zIndex: 100,
+          }}
+        />
+      )}
     </Dialog>
   );
 };

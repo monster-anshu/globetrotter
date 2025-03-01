@@ -35,7 +35,7 @@ const ChallengeDialog: FC<IChallengeDialogProps> = ({ onClose }) => {
 
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className={data ? 'w-max !max-w-max' : ''}>
+      <DialogContent className={data ? 'w-full !max-w-max' : ''}>
         <DialogTitle className="sr-only">Share challange</DialogTitle>
         {isLoading ? (
           <Spinner />

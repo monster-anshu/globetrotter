@@ -30,8 +30,10 @@ export default function Home() {
           height={1600}
         />
         <div className="relative flex h-full w-full flex-col items-center justify-center gap-2">
-          <h1 className="heading text-8xl text-white italic">Globetrotter</h1>
-          <h2 className="heading text-2xl text-white">
+          <h1 className="heading text-3xl text-white italic md:text-6xl lg:text-8xl">
+            Globetrotter
+          </h1>
+          <h2 className="heading text-lg whitespace-normal text-white md:text-2xl">
             Unlock the World&apos;s Hidden Wonders
           </h2>
           <Button

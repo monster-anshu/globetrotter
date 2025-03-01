@@ -47,7 +47,7 @@ const ChallengeFried = ({ username, score, userId }: ChallengeFriedProps) => {
   };
 
   return (
-    <div className="grid grid-cols-[300px_1fr] items-start gap-2">
+    <div className="grid items-start gap-2 md:grid-cols-[300px_1fr]">
       <div
         ref={shareCardRef}
         className="mb-4 rounded-xl p-5 text-center shadow-2xl"
@@ -73,7 +73,7 @@ const ChallengeFried = ({ username, score, userId }: ChallengeFriedProps) => {
         <p className="mt-3 font-bold">Scan or tap the link to play!</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid gap-2 md:grid-cols-2">
         <Button onClick={shareToWhatsApp}>Share via WhatsApp</Button>
         <Button onClick={() => downloadImage.mutate()}>Download image</Button>
         <p className="col-span-full mb-1">Or copy this link:</p>
