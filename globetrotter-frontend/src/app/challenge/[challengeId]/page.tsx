@@ -1,5 +1,5 @@
 import ChallengePage from '@/components/ChallengePage';
-import { API_URL, APP_URL } from '@/env';
+import { APP_URL } from '@/env';
 import { ChallengeService } from '@/services/challenge.service';
 import React, { FC } from 'react';
 
@@ -7,12 +7,8 @@ type IChallengeHandlerProps = {
   params: Promise<Record<string, string>>;
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Record<string, string>;
-}) {
-  const challengeId = params.id;
+export async function generateMetadata({ params }: IChallengeHandlerProps) {
+  const { challengeId } = await params;
 
   const ogImageUrl = new URL(
     `/api/og?challengeId=${challengeId}`,
