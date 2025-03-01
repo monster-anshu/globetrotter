@@ -1,7 +1,9 @@
-import { MONGO_URI, NODE_ENV } from '@/env';
+import { NODE_ENV } from '@/env';
 import mongoose from 'mongoose';
 
 const isProd = NODE_ENV === 'production';
+
+const MONGO_URI = process.env.MONGO_URI as string;
 
 mongoose.set('debug', !isProd);
 mongoose.set('autoIndex', !isProd);
@@ -18,7 +20,7 @@ const createConnection = (url: string, name: string) => {
 
   return conn;
 };
-
+console.log(process.env.MONGO_URI);
 export const MONGO_CONNETIONS = {
   DEFAULT: createConnection(MONGO_URI, 'default'),
 };
