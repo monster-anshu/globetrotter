@@ -13,6 +13,7 @@ type IFailDialogProps = {
   answer: string;
   isPending: boolean;
   setInviting: (value: boolean) => void;
+  trivia: string;
 };
 
 const FailDialog: FC<IFailDialogProps> = ({
@@ -21,6 +22,7 @@ const FailDialog: FC<IFailDialogProps> = ({
   answer,
   isPending,
   setInviting,
+  trivia,
 }) => {
   return (
     <Dialog open modal={false}>
@@ -42,6 +44,8 @@ const FailDialog: FC<IFailDialogProps> = ({
           </p>
           <p className="text-lg">Fun fact</p>
           <p className="font-light">{funFact}</p>
+          <p className="text-lg">Trivia</p>
+          <p className="font-light">{trivia}</p>
         </div>
         <DialogFooter>
           <Button

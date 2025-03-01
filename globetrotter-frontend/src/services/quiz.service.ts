@@ -32,6 +32,7 @@ type CheckQuizResponse = {
   isCorrect: boolean;
   funFact: string;
   answer: string;
+  trivia: string;
 };
 
 type Option = {

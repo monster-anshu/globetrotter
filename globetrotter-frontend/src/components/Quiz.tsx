@@ -57,6 +57,7 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
           answer={checkMutation.data.answer}
           isPending={isPending}
           setInviting={setInviting}
+          trivia={checkMutation.data.trivia}
         />
       )}
       {checkMutation.data?.isCorrect === false && (
@@ -66,6 +67,7 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
           answer={checkMutation.data.answer}
           isPending={isPending}
           setInviting={setInviting}
+          trivia={checkMutation.data.trivia}
         />
       )}
 

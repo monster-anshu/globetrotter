@@ -13,6 +13,7 @@ type ISuccessDialogProps = {
   setInviting: (value: boolean) => void;
   inviting: boolean;
   isPending: boolean;
+  trivia: string;
 };
 
 const SuccessDialog: FC<ISuccessDialogProps> = ({
@@ -22,6 +23,7 @@ const SuccessDialog: FC<ISuccessDialogProps> = ({
   setInviting,
   isPending,
   inviting,
+  trivia,
 }) => {
   return (
     <Dialog open modal={false}>
@@ -36,6 +38,8 @@ const SuccessDialog: FC<ISuccessDialogProps> = ({
           </p>
           <p className="text-lg">Fun fact</p>
           <p className="font-light">{funFact}</p>
+          <p className="text-lg">Trivia</p>
+          <p className="font-light">{trivia}</p>
         </div>
         <DialogFooter>
           <Button
