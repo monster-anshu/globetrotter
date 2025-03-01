@@ -2,13 +2,12 @@
 import Button from '@/components/ui/button';
 import { QuizQuestion, QuizService } from '@/services/quiz.service';
 import { useMutation } from '@tanstack/react-query';
-import {} from 'next';
+import { UserRoundPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { FC, useState } from 'react';
-import Confetti from 'react-confetti';
 import { TbPlayerTrackNext } from 'react-icons/tb';
-import { toast } from 'sonner';
+import ChallengeDialog from './ChallengeDialog';
 import FailDialog from './FailDialog';
 import SuccessDialog from './SuccessDialog';
 
@@ -18,6 +17,7 @@ type IQuizProps = {
 
 const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
   const router = useRouter();
+  const [inviting, setInviting] = useState(false);
 
   const checkMutation = useMutation({
     mutationFn: QuizService.check,
@@ -36,9 +36,20 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
 
   return (
     <main className="p-4">
+      {inviting ? <ChallengeDialog onClose={() => setInviting(false)} /> : null}
       <h1 className="heading text-2xl italic">
         <Link href={'/'}>Globetrotter</Link>
       </h1>
+      <div className="fixed right-4 bottom-8">
+        <Button
+          onClick={() => setInviting(true)}
+          aria-label="Challenge friend"
+          className="flex gap-2"
+        >
+          <UserRoundPlus />
+          <span>Challenge friend</span>
+        </Button>
+      </div>
       {checkMutation.data?.isCorrect === true && (
         <SuccessDialog
           handleNext={handleNext}

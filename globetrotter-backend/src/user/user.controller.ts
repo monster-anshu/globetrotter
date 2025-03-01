@@ -1,15 +1,13 @@
 import { GetSession } from '@/session/session.decorator';
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { UserCreateDto } from './dto/user-create.dto';
-import { UserGuard } from './user.guard';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(UserGuard)
   @Get()
   async info(@GetSession('userId') userId: string) {
     const user = await this.userService.getById(userId);
@@ -25,7 +23,7 @@ export class UserController {
     @Res() res: Response,
     @GetSession('userId') oldUserId?: string
   ) {
-    const { token } = await this.userService.create(body, oldUserId);
+    const { token, user } = await this.userService.create(body, oldUserId);
 
     res.cookie('__session', token, {
       httpOnly: true,
@@ -33,6 +31,6 @@ export class UserController {
       path: '/',
     });
 
-    res.json({ isSuccess: true });
+    res.json({ isSuccess: true, user });
   }
 }
