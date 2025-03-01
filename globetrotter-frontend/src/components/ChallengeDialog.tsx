@@ -41,14 +41,14 @@ const ChallengeDialog: FC<IChallengeDialogProps> = ({ onClose }) => {
           <Spinner />
         ) : (
           <>
-            {data && (
+            {data?.username && (
               <ChallengeFried
                 score={data.score}
                 username={data.username}
                 userId={data.userId}
               />
             )}
-            {data === null && (
+            {!data?.username && (
               <div>
                 <label htmlFor="name">Username</label>
                 <input

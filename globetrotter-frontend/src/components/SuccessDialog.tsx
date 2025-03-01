@@ -1,6 +1,7 @@
 import Button from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { DialogTitle } from '@radix-ui/react-dialog';
+import { UserRoundPlus } from 'lucide-react';
 import React, { FC } from 'react';
 import ReactConfetti from 'react-confetti';
 import { TbPlayerTrackNext } from 'react-icons/tb';
@@ -9,12 +10,16 @@ type ISuccessDialogProps = {
   funFact: string;
   handleNext: () => void;
   answer: string;
+  setInviting: (value: boolean) => void;
+  isPending: boolean;
 };
 
 const SuccessDialog: FC<ISuccessDialogProps> = ({
   funFact,
   handleNext,
   answer,
+  setInviting,
+  isPending,
 }) => {
   return (
     <Dialog open modal={false}>
@@ -32,12 +37,23 @@ const SuccessDialog: FC<ISuccessDialogProps> = ({
         </div>
         <DialogFooter>
           <Button
-            className="ml-auto flex items-center gap-2"
+            onClick={() => setInviting(true)}
+            aria-label="Challenge friend"
+            className="flex gap-2"
+          >
+            <UserRoundPlus />
+            <span>Challenge friend</span>
+          </Button>
+          <Button
+            className="ml-auto"
             variant="secondary"
             onClick={handleNext}
+            loading={isPending}
           >
-            <span>Next</span>
-            <TbPlayerTrackNext />
+            <div className="flex items-center gap-2">
+              <span>Next</span>
+              <TbPlayerTrackNext />
+            </div>
           </Button>
         </DialogFooter>
       </DialogContent>

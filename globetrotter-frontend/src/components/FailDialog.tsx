@@ -3,6 +3,7 @@ import Button from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import Lottie from 'lottie-react';
+import { UserRoundPlus } from 'lucide-react';
 import React, { FC } from 'react';
 import { TbPlayerTrackNext } from 'react-icons/tb';
 
@@ -10,9 +11,17 @@ type IFailDialogProps = {
   funFact: string;
   handleNext: () => void;
   answer: string;
+  isPending: boolean;
+  setInviting: (value: boolean) => void;
 };
 
-const FailDialog: FC<IFailDialogProps> = ({ funFact, handleNext, answer }) => {
+const FailDialog: FC<IFailDialogProps> = ({
+  funFact,
+  handleNext,
+  answer,
+  isPending,
+  setInviting,
+}) => {
   return (
     <Dialog open modal={false}>
       <DialogContent>
@@ -36,12 +45,23 @@ const FailDialog: FC<IFailDialogProps> = ({ funFact, handleNext, answer }) => {
         </div>
         <DialogFooter>
           <Button
-            className="ml-auto flex items-center gap-2"
+            onClick={() => setInviting(true)}
+            aria-label="Challenge friend"
+            className="flex gap-2"
+          >
+            <UserRoundPlus />
+            <span>Challenge friend</span>
+          </Button>
+          <Button
+            className="ml-auto"
             variant="secondary"
             onClick={handleNext}
+            loading={isPending}
           >
-            <span>Next</span>
-            <TbPlayerTrackNext />
+            <div className="flex items-center gap-2">
+              <span>Next</span>
+              <TbPlayerTrackNext />
+            </div>
           </Button>
         </DialogFooter>
       </DialogContent>

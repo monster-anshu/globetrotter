@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { UserRoundPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useTransition } from 'react';
 import { TbPlayerTrackNext } from 'react-icons/tb';
 import ChallengeDialog from './ChallengeDialog';
 import FailDialog from './FailDialog';
@@ -18,12 +18,18 @@ type IQuizProps = {
 const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
   const router = useRouter();
   const [inviting, setInviting] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [clickedOption, setClickedOption] = useState('');
 
   const checkMutation = useMutation({
     mutationFn: QuizService.check,
+    onSuccess() {
+      setClickedOption('');
+    },
   });
 
   const handleClick = (answer: string) => {
+    setClickedOption(answer);
     checkMutation.mutateAsync({
       alias: quizQuestion.alias,
       answer: answer,
@@ -31,7 +37,9 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
   };
 
   const handleNext = () => {
-    router.refresh();
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   return (
@@ -40,21 +48,14 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
       <h1 className="heading text-2xl italic">
         <Link href={'/'}>Globetrotter</Link>
       </h1>
-      <div className="fixed right-4 bottom-8">
-        <Button
-          onClick={() => setInviting(true)}
-          aria-label="Challenge friend"
-          className="flex gap-2"
-        >
-          <UserRoundPlus />
-          <span>Challenge friend</span>
-        </Button>
-      </div>
+
       {checkMutation.data?.isCorrect === true && (
         <SuccessDialog
           handleNext={handleNext}
           funFact={checkMutation.data.funFact}
           answer={checkMutation.data.answer}
+          isPending={isPending}
+          setInviting={setInviting}
         />
       )}
       {checkMutation.data?.isCorrect === false && (
@@ -62,6 +63,8 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
           handleNext={handleNext}
           funFact={checkMutation.data.funFact}
           answer={checkMutation.data.answer}
+          isPending={isPending}
+          setInviting={setInviting}
         />
       )}
       <div className="mx-auto max-w-5xl">
@@ -74,6 +77,9 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
                 size="lg"
                 className="py-4 text-2xl"
                 onClick={() => handleClick(option.name)}
+                loading={
+                  clickedOption === option.name && checkMutation.isPending
+                }
               >
                 {option.name}
               </Button>
@@ -81,14 +87,28 @@ const Quiz: FC<IQuizProps> = ({ quizQuestion }) => {
           })}
         </div>
         {!checkMutation.data && (
-          <Button
-            className="ml-auto flex items-center gap-4 text-3xl"
-            variant="secondary"
-            onClick={handleNext}
-          >
-            <span>Next</span>
-            <TbPlayerTrackNext />
-          </Button>
+          <div className="mt-6 flex items-center">
+            <Button
+              onClick={() => setInviting(true)}
+              aria-label="Challenge friend"
+              className="flex gap-2"
+            >
+              <UserRoundPlus />
+              <span>Challenge friend</span>
+            </Button>
+            <div className="flex-1"></div>
+            <Button
+              className="ml-auto text-3xl"
+              variant="secondary"
+              onClick={handleNext}
+              loading={isPending}
+            >
+              <div className="flex items-center gap-2">
+                <span>Next</span>
+                <TbPlayerTrackNext />
+              </div>
+            </Button>
+          </div>
         )}
       </div>
     </main>

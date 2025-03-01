@@ -3,7 +3,7 @@ import Button from '@/components/ui/button';
 import { UserService } from '@/services/user.service';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import React, { FC } from 'react';
+import React, { FC, useTransition } from 'react';
 
 type IChallengePageProps = {
   username: string;
@@ -12,11 +12,14 @@ type IChallengePageProps = {
 
 const ChallengePage: FC<IChallengePageProps> = ({ score, username }) => {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const playMutation = useMutation({
     mutationFn: UserService.create,
     onSuccess() {
-      router.push('/quiz');
+      startTransition(() => {
+        router.push('/quiz');
+      });
     },
   });
   return (
@@ -36,7 +39,7 @@ const ChallengePage: FC<IChallengePageProps> = ({ score, username }) => {
       <p className="mb-6">Think you can beat it?</p>
       <Button
         onClick={() => playMutation.mutate({})}
-        loading={playMutation.isPending}
+        loading={playMutation.isPending || isPending}
       >
         Play now
       </Button>
