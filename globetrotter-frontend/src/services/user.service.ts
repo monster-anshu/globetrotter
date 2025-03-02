@@ -5,7 +5,7 @@ export class UserService {
     const { data } = await client.get<UserInfoResponse>('/user');
 
     if (!data.user) {
-      const user = await this.create({});
+      const user = await UserService.create({});
       return user;
     }
 
