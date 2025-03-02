@@ -92,6 +92,8 @@ const main = async () => {
   const dataToInsert: Partial<Question>[] = [];
 
   let i = 0;
+
+  // Using for loop instead of Promise.all to avoid rate limiting
   for (const city of cities) {
     const property = await getProperties(city);
     if (!property) {

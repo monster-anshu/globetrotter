@@ -3,6 +3,12 @@ import { client } from './client';
 export class UserService {
   static async info() {
     const { data } = await client.get<UserInfoResponse>('/user');
+
+    if (!data.user) {
+      const user = await this.create({});
+      return user;
+    }
+
     return data.user;
   }
 
